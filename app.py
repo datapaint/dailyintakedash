@@ -1,29 +1,16 @@
-import dash
-import os, json
-import dash_auth
-from dash import Dash, dcc, html, Input, Output, callback
+import dash, os
+from dash import Dash, dcc, html, Input, Output, State, callback
+from dash_auth import BasicAuth
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
 # Get the environment VALID_USERNAME_PASSWORD_PAIRS
-auth_pairs_json = os.environ.get("VALID_USERNAME_PASSWORD_PAIRS")
-
-if auth_pairs_json:
-    try:
-        valid_username_password_pairs = json.loads(auth_pairs_json)
-    except json.JSONDecodeError:
-        print("Error: Invalid JSON format for VALID_USERNAME_PASSWORD_PAIRS")
-        valid_username_password_pairs = {}
-else:
-    print("Warning: VALID_USERNAME_PASSWORD_PAIRS not set")
-    valid_username_password_pairs = {}
+username = os.environ.get('DASH_AUTH_USER')
+password = os.environ.get('DASH_AUTH_PASSWORD')
 
 # Add authentication
-auth = dash_auth.BasicAuth(
-    app,
-    valid_username_password_pairs
-)
+auth = BasicAuth(app, {username: password})
 
 # Define the layout of the dashboard
 app.layout = html.Div([
