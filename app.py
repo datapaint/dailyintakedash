@@ -48,7 +48,7 @@ except OperationalErrior as e:
     if "database" + fiber_table_name + "does not exist" in str(e):
         engine.execute(f"CREATE DATABASE {fiber_table_name}")
         firstdbsession.close()
-        print(f"Table "{fiber_table_name}" created successfully.")
+        print(f"Table {fiber_table_name} created successfully.")
     else:
         raise e
 
